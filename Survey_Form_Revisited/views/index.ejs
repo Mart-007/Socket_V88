@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey form</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="/stylesheet/form.css">
+
+    <script>
+        $(document).ready( function(){
+        var socket = io.connect('http://localhost:7000')
+        $('#survey_form').submit( function(e){
+            e.preventDefault();
+            socket.emit("posting_form", {
+                name: $('#name').val(),
+                location: $('#location').val(),
+                language: $('#langauge').val(),
+                comment: $('#comment').val(),
+                });
+            });
+            socket.on('updated_message', function(data){
+                $('#message').html("You emitted the following data to the server:" + JSON.stringify(data.response));
+            });
+            socket.on('random_number', function(data){
+                $('#number').html("Your lucky number emitted by the server is:" + JSON.stringify(data.response));
+            });
+        })
+    </script>
+</head>
+<body>
+    <div class="content">
+        <h1>Form Survey Revisited</h1>
+        <div class="socket" id="message"></div><br>
+        <div class="socket" id="number"></div>
+        <form id="survey_form" method="post">
+            Your Name: <input type="text" name="name" class="name" id="name"><br>
+            Dojo Location: 
+            <select name="location" id="location">
+                <option name="location" value="">Choose location</option>
+                <option name="location" value="Mountain View">Mountain View</option>
+                <option name="location" value="Bohol">Bohol</option>
+                <option name="location" value="Samar Leyte">Silicon Valley</option>
+            </select><br>
+            Favorite Language: 
+            <select name="langauge" id="langauge">
+                <option name="langauge" value="">Choose language</option>
+                <option name="langauge" value="JavaScript">JavaScript</option>
+                <option name="langauge" value="Python">Python</option>
+                <option name="langauge" value="PHP">PHP</option>
+                <option name="langauge" value="C++">C++</option>
+            </select><br>
+            Comment:<br>
+            <textarea name="comments" id="comment" cols="43" rows="5"></textarea><br>
+            <input type="submit" class="btn" value="Submit">
+        </form> 
+    </div>
+</body>
+</html>
