@@ -22,17 +22,7 @@
                 $('#message').append($('<li>').html(`<p> ${data} </p>`));
             })
             //---------------------------------
-
-            // $('form').submit( function(e){
-            //     // socket.emit("send_message", message);
-            //     e.preventdefault();
-            //     $('#text').val('');
-            //     return false;
-            // })
-            // socket.on('chat_message', (msg) =>{
-            //     $('#messsage').append(`<li>${msg}</li>`);
-            //     // $('#messsage').append($('<li>').html(msg));
-            // })
+            
             socket.on('is_online', (username) => {
                 $('#message').append($('<li>').html(username));
             })

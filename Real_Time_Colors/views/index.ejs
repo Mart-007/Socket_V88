@@ -15,7 +15,7 @@
             socket.emit("new_connection", { msg: `new connection` });
             for(let i = 0; i < btnColor.length; i++){
                 btnColor[i].addEventListener("click", (e) => {
-                    socket.emit("setColor", { msg: `setColor`, color: this.classList[this.classList.length -1] });
+                    socket.emit("setColor", { msg: `setColor`, color: this.classList[this.classList.length-1]});
                 })
             }
             socket.on("color", (data) => {
